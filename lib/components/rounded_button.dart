@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:futter_foody/constants.dart';
 
 class RoundedButton extends StatelessWidget {
   final String text;
-  final Function press;
+  final Function onPress;
   final Color color, textColor;
+  final double width;
+  final double verticalMargin;
+  final double borderRadius;
+  final double verticalPadding;
+  final double horizontalPadding;
+  final double fontSize;
 
   const RoundedButton({
-    Key key, this.text = '', this.press, this.color, this.textColor = Colors.white,
+    Key key, this.text = '', this.onPress, this.color, this.textColor = Colors.white, this.width, this.verticalMargin, this.borderRadius, this.verticalPadding, this.horizontalPadding, this.fontSize,
   }) : super(key: key);
 
   @override
@@ -14,20 +21,17 @@ class RoundedButton extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
 
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10),
-      width: size.width * 0.8,
+      margin: EdgeInsets.symmetric(vertical: verticalMargin),
+      width: size.width * width,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(29),
+        borderRadius: BorderRadius.circular(borderRadius),
         child: FlatButton(
-          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 40),
-          color: Color.fromRGBO(26, 136, 50, 1),
-          onPressed: () {},
+          padding: EdgeInsets.symmetric(vertical: verticalPadding, horizontal: horizontalPadding),
+          color: primaryCollor,
+          onPressed: onPress,
           child: Text(
             text,
-            style: TextStyle(
-              color: textColor,
-              fontSize: 24.0
-            ),
+            style: TextStyle(color: textColor, fontSize: fontSize),
           ),
         ),
       ),
