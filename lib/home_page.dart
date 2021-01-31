@@ -54,30 +54,30 @@ class HomePage extends  StatelessWidget {
                 style: TextStyle(fontSize: 14),
               ),
             ),
-            // SizedBox(height: 20),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //   children: <Widget>[
-            //     Expanded(
-            //       child: RoundedTextContainer(
-            //         borderWidth: 1,
-            //         child: TextField(
-            //           decoration: InputDecoration(
-            //             prefixIcon: Icon(Icons.search),
-            //             hintText: 'Search',
-            //             border: InputBorder.none,
-            //             contentPadding:
-            //                 EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0)),
-            //           style: TextStyle(fontSize: 16),
-            //         ),
-            //       )
-            //     ),
-            //     IconButton(
-            //       icon: SvgPicture.asset('assets/icons/icn_filter.svg'),
-            //       onPressed: () {},
-            //     )
-            //   ],
-            // ),
+            SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Expanded(
+                  child: RoundedTextContainer(
+                    borderWidth: 1,
+                    child: TextField(
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.search),
+                        hintText: 'Search',
+                        border: InputBorder.none,
+                        contentPadding:
+                            EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0)),
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  )
+                ),
+                IconButton(
+                  icon: SvgPicture.asset('assets/icons/icn_filter.svg'),
+                  onPressed: () {},
+                )
+              ],
+            ),
             // SizedBox(height: 30),
             // Align(
             //   alignment: Alignment.centerLeft,
