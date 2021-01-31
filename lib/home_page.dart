@@ -102,10 +102,7 @@ class HomePage extends StatelessWidget {
                                 SizedBox(width: 4),
                                 Text(menu.restaurant),
                                 SizedBox(width: 10),
-                                Align(
-                                  alignment: Alignment.centerRight,
-                                  child: Text("Rp " + menu.price),
-                                )
+                                Text("Rp " + menu.price)
                               ],
                             )
                           ],
