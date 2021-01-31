@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:futter_foody/components/rounded_text_container.dart';
+import 'package:futter_foody/constants.dart';
+import 'package:futter_foody/model/menu.dart';
 import 'package:futter_foody/model/restaurant.dart';
 
 class HomePage extends StatelessWidget {
@@ -8,7 +10,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBar(context),
-      body: Container(
+      body: SafeArea(
         child: ListView(
           physics: ClampingScrollPhysics(),
           children: <Widget>[
@@ -18,39 +20,102 @@ class HomePage extends StatelessWidget {
             filterForm(context),
             SizedBox(height: 30),
             Container(
-              margin: EdgeInsets.only(left: 25, right: 25),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(
-                    'Popular Restaurants',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                  ),
-                  Text(
-                    'View All',
-                    style: TextStyle(fontSize: 12, color: Colors.grey),
-                  )
-                ],
-              )
-            ),
+                margin: EdgeInsets.only(left: 25, right: 25),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      'Popular Restaurants',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                    ),
+                    Text(
+                      'View All',
+                      style: TextStyle(fontSize: 12, color: Colors.grey),
+                    )
+                  ],
+                )),
             recomendedRestaurants(context),
             SizedBox(height: 30),
             Container(
+                margin: EdgeInsets.only(left: 25, right: 25),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      'Popular Menus',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                    ),
+                    Text(
+                      'View All',
+                      style: TextStyle(fontSize: 12, color: Colors.grey),
+                    )
+                  ],
+                )),
+            SizedBox(height: 20),
+            Container(
               margin: EdgeInsets.only(left: 25, right: 25),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(
-                    'Popular Menus',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              child: Column(
+                children: menus.map((menu) => Container(
+                  height: 72,
+                  width: MediaQuery.of(context).size.width,
+                  margin: EdgeInsets.only(bottom: 10),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 0.8,
+                        blurRadius: 2,
+                        offset: Offset(0, 2),
+                      )
+                    ]
                   ),
-                  Text(
-                    'View All',
-                    style: TextStyle(fontSize: 12, color: Colors.grey),
-                  )
-                ],
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                        height: 72,
+                        width: 72,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8)
+                        ),
+                        child: Image.asset(menu.picture),
+                      ),
+                      Container(
+                        padding: EdgeInsets.all(10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text(menu.name, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                SvgPicture.asset('assets/icons/icn_rating.svg'),
+                                SizedBox(width: 4),
+                                Text(menu.rating.toString()),
+                                SizedBox(width: 8),
+                                SvgPicture.asset('assets/icons/icn_restaurant.svg'),
+                                SizedBox(width: 4),
+                                Text(menu.restaurant),
+                                SizedBox(width: 10),
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Text("Rp " + menu.price),
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                )).toList(),
               )
-            ),
+            )
           ],
         ),
       ),
@@ -146,78 +211,74 @@ class HomePage extends StatelessWidget {
     return Container(
       height: 275,
       child: ListView.builder(
-        padding: EdgeInsets.only(left: 25, right: 10),
-        scrollDirection: Axis.horizontal,
-        itemCount: restaurants.length,
-        itemBuilder: (context, index) {
-          return GestureDetector(
-            onTap: () => print(restaurants[index].name),
-            child: Container(
-              margin: EdgeInsets.only(right: 15, top: 20),
-              height: 257,
-              width: 261,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: Colors.white,
-                image: DecorationImage(
-                  image: NetworkImage(restaurants[index].pictureId),
-                  fit: BoxFit.cover
-                ),
-              ),
-              child: Stack(
-                children: <Widget>[
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: Colors.black,
-                      gradient: LinearGradient(
-                        begin: FractionalOffset.topCenter,
-                        end: FractionalOffset.bottomCenter,
-                        colors: [
-                          Colors.black.withOpacity(0.0),
-                          Colors.black,
-                        ],
-                        stops: [
-                          0.0,
-                          1.0
-                        ]
-                      ),
-                    ),
+          padding: EdgeInsets.only(left: 25, right: 10),
+          scrollDirection: Axis.horizontal,
+          itemCount: restaurants.length,
+          itemBuilder: (context, index) {
+            return GestureDetector(
+                onTap: () => print(restaurants[index].name),
+                child: Container(
+                  margin: EdgeInsets.only(right: 15, top: 20),
+                  height: 257,
+                  width: 261,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    color: Colors.white,
+                    image: DecorationImage(
+                        image: NetworkImage(restaurants[index].pictureId),
+                        fit: BoxFit.cover),
                   ),
-                  Positioned(
-                    bottom: 35,
-                    left: 20,
-                    child: Text(
-                      restaurants[index].name,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold
+                  child: Stack(
+                    children: <Widget>[
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: Colors.black,
+                          gradient: LinearGradient(
+                              begin: FractionalOffset.topCenter,
+                              end: FractionalOffset.bottomCenter,
+                              colors: [
+                                Colors.black.withOpacity(0.0),
+                                Colors.black,
+                              ],
+                              stops: [
+                                0.0,
+                                1.0
+                              ]),
+                        ),
                       ),
-                    )
+                      Positioned(
+                          bottom: 35,
+                          left: 20,
+                          child: Text(
+                            restaurants[index].name,
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
+                          )),
+                      Positioned(
+                        bottom: 15,
+                        left: 20,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            SvgPicture.asset('assets/icons/icn_rating.svg'),
+                            SizedBox(width: 4),
+                            Text(restaurants[index].rating.toString(),
+                                style: TextStyle(color: Colors.white)),
+                            SizedBox(width: 8),
+                            SvgPicture.asset('assets/icons/icn_mark.svg'),
+                            SizedBox(width: 4),
+                            Text(restaurants[index].city,
+                                style: TextStyle(color: Colors.white))
+                          ],
+                        ),
+                      )
+                    ],
                   ),
-                  Positioned(
-                    bottom: 15,
-                    left: 20,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        SvgPicture.asset('assets/icons/icn_rating.svg'),
-                        SizedBox(width: 4),
-                        Text(restaurants[index].rating.toString(), style: TextStyle(color: Colors.white)),
-                        SizedBox(width: 8),
-                        SvgPicture.asset('assets/icons/icn_mark.svg'),
-                        SizedBox(width: 4),
-                        Text(restaurants[index].city, style: TextStyle(color: Colors.white))
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            )
-          );
-        }
-      ),
+                ));
+          }),
     );
   }
 }
@@ -250,4 +311,25 @@ var restaurants = [
           "https://dicoding-restaurant-api.el.r.appspot.com/images/medium/41",
       city: "Medan",
       rating: 4.6)
+];
+
+var menus = [
+  Menu(
+      name: "Caramel Macchiato",
+      restaurant: "Raja Pangsit",
+      price: "25.000",
+      rating: 5.0,
+      picture: "assets/images/macchiato.png"),
+  Menu(
+      name: "Choco Vanilla Cake",
+      restaurant: "Frozen",
+      price: "35.000",
+      rating: 5.0,
+      picture: "assets/images/cocho_vanilla.png"),
+  Menu(
+      name: "Udang Bakar",
+      restaurant: "Sea Food OK",
+      price: "30.000",
+      rating: 5.0,
+      picture: "assets/images/udang_bakar.png")
 ];
